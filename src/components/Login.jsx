@@ -1,22 +1,27 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "./Login.css";
-import caminhaoImg from "../assets/caminhao1.jpg";
-import postoImg from "../assets/caminhao4.png";
+import caminhao1 from "../assets/caminhao1.jpg";
 
 export default function Login() {
+  const navigate = useNavigate();
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    navigate("/lista-cargas");
+  };
+
   return (
     <div className="login-container">
-      <div className="login-background">
-        <img src={postoImg} alt="Posto de gasolina" className="posto-bg" />
-        <img src={caminhaoImg} alt="Caminhão-tanque" className="caminhao-bg" />
-      </div>
-      <div className="login-box">
-        <h1 className="login-title">Logística de Carga e Descarga</h1>
-        <form>
-          <input type="text" placeholder="Usuário" />
-          <input type="password" placeholder="Senha" />
-          <button type="submit">Entrar</button>
-        </form>
+      <form className="login-form" onSubmit={handleLogin}>
+        <h1>Logística de Carga e Descarga</h1>
+        <input type="text" placeholder="Usuário" required />
+        <input type="password" placeholder="Senha" required />
+        <button type="submit">Entrar</button>
+      </form>
+
+      <div className="login-image-wrapper">
+        <img src={caminhao1} alt="Caminhão" className="animated-image" />
       </div>
     </div>
   );

@@ -1,14 +1,16 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./components/Login";
-import Dashboard from "./pages/Dashboard";
+import ListaDeCargas from "./pages/ListaDeCargas";
+import InformacoesCarga from "./pages/InformacoesCarga";
 
 export default function App() {
   return (
-    <Router>
+    <BrowserRouter>
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/lista-cargas" element={<ListaDeCargas />} />
+        <Route path="/informacoes-carga" element={<InformacoesCarga />} />
       </Routes>
-    </Router>
+    </BrowserRouter>
   );
 }
