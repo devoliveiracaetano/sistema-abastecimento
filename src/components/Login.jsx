@@ -8,7 +8,7 @@ export default function Login() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    navigate("/lista-cargas");
+    navigate("/menu");
   };
 
   return (

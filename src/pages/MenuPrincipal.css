@@ -1,0 +1,47 @@
+/* src/pages/MenuPrincipal.css */
+.menu-principal-container {
+  text-align: center;
+  padding: 40px;
+}
+
+.menu-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin: 30px auto;
+  max-width: 300px;
+}
+
+.menu-buttons button {
+  padding: 12px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.menu-buttons button:hover {
+  background-color: #0056b3;
+}
+
+.logout {
+  margin-top: 20px;
+}
+
+.logout-btn {
+  background-color: #888;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.logout-btn:hover {
+  background-color: #666;
+}

@@ -13,7 +13,7 @@ export default function ListaDeCargas() {
   const handleVoltar = () => {
     setFadeOut(true);
     setTimeout(() => {
-      navigate("/"); // volta para login
+      navigate("/menu"); // volta para tela menu
     }, 500);
   };
 

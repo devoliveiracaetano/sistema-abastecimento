@@ -1,3 +1,4 @@
+// src/pages/InformacoesCarga.jsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./InformacoesCarga.css";
@@ -19,6 +20,7 @@ export default function InformacoesCarga() {
     "Ana Lima",
     "Pedro Santos",
   ];
+
   const postosMock = [
     "Posto Central",
     "Posto Sul",
@@ -26,6 +28,7 @@ export default function InformacoesCarga() {
     "Posto Leste",
     "Posto Oeste",
   ];
+
   const produtosMock = [
     "Diesel",
     "Gasolina",
@@ -41,12 +44,15 @@ export default function InformacoesCarga() {
   };
 
   const handleSalvar = () => {
-    // Aqui você pode enviar para API
     setSalvo(true);
     setTimeout(() => {
       setSalvo(false);
       navigate("/lista-cargas"); // volta para lista
-    }, 5000); // mensagem por 5 segundos
+    }, 5000);
+  };
+
+  const handleVoltar = () => {
+    navigate("/lista-cargas"); // botão voltar manual
   };
 
   return (
@@ -110,9 +116,14 @@ export default function InformacoesCarga() {
         {foto && <img src={foto} alt="Carga" className="foto-carga" />}
       </div>
 
-      <button className="salvar-btn" onClick={handleSalvar}>
-        Salvar
-      </button>
+      <div className="buttons">
+        <button className="salvar-btn" onClick={handleSalvar}>
+          Salvar
+        </button>
+        <button className="voltar-btn" onClick={handleVoltar}>
+          Voltar
+        </button>
+      </div>
 
       {salvo && (
         <div className="mensagem-sucesso">Carga salva com sucesso!</div>

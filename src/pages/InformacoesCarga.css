@@ -1,64 +1,105 @@
+/* src/pages/InformacoesCarga.css */
+
 .informacoes-carga-container {
-  max-width: 500px;
+  max-width: 600px;
   margin: 40px auto;
   padding: 20px;
-  font-family: Arial, sans-serif;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.6s ease-in-out;
 }
 
-h1 {
+.informacoes-carga-container h1 {
   text-align: center;
   margin-bottom: 20px;
+  color: #333;
 }
 
 .form-group {
+  margin-bottom: 15px;
   display: flex;
   flex-direction: column;
-  margin-bottom: 15px;
 }
 
 .form-group label {
-  margin-bottom: 5px;
-  font-weight: bold;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #444;
 }
 
-.form-group input[type="text"],
-.form-group input[type="file"],
+.form-group input,
 .form-group select {
-  padding: 8px;
-  border-radius: 5px;
+  padding: 10px;
   border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
 }
 
 .foto-carga {
+  display: block;
   margin-top: 10px;
-  width: 100%;
-  max-height: 300px;
-  object-fit: cover;
+  max-width: 100%;
+  max-height: 200px;
   border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
 }
 
 .salvar-btn {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  background-color: #007bff;
+  background-color: #4caf50;
   color: white;
-  font-size: 16px;
+  font-weight: bold;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
+  padding: 10px 20px;
   cursor: pointer;
-  margin-top: 15px;
+  transition: 0.3s;
 }
 
 .salvar-btn:hover {
-  background-color: #0056b3;
+  background-color: #45a049;
+}
+
+.voltar-btn {
+  background-color: #888;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.voltar-btn:hover {
+  background-color: #666;
 }
 
 .mensagem-sucesso {
-  margin-top: 15px;
+  margin-top: 20px;
   padding: 10px;
-  background-color: #28a745;
-  color: white;
   text-align: center;
-  border-radius: 6px;
+  background: #d4edda;
+  color: #155724;
+  border-radius: 8px;
+  border: 1px solid #c3e6cb;
+  font-weight: bold;
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
