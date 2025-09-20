@@ -1,71 +1,18 @@
-// src/pages/ListaPostos.jsx
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { PostosContext } from "../contexts/PostosContext";
 import "./ListaPostos.css";
 
 export default function ListaPostos() {
   const navigate = useNavigate();
-
-  // Dados mokados
-  const [postos, setPostos] = useState([
-    {
-      id: 1,
-      nomePosto: "Posto Central",
-      nomeGerente: "Carlos Silva",
-      nomeSupervisor: "Ana Souza",
-      regiao: "Centro",
-      statusPedido: "Ativo",
-    },
-    {
-      id: 2,
-      nomePosto: "Posto Norte",
-      nomeGerente: "Marcos Lima",
-      nomeSupervisor: "Paula Santos",
-      regiao: "Norte",
-      statusPedido: "Inativo",
-    },
-    {
-      id: 3,
-      nomePosto: "Posto Sul",
-      nomeGerente: "Roberto Costa",
-      nomeSupervisor: "Fernanda Oliveira",
-      regiao: "Sul",
-      statusPedido: "Ativo",
-    },
-    {
-      id: 4,
-      nomePosto: "Posto Leste",
-      nomeGerente: "Juliana Melo",
-      nomeSupervisor: "Eduardo Ramos",
-      regiao: "Leste",
-      statusPedido: "Ativo",
-    },
-    {
-      id: 5,
-      nomePosto: "Posto Oeste",
-      nomeGerente: "Thiago Rocha",
-      nomeSupervisor: "Carla Mendes",
-      regiao: "Oeste",
-      statusPedido: "Inativo",
-    },
-    {
-      id: 6,
-      nomePosto: "Posto Horizonte",
-      nomeGerente: "Mariana Alves",
-      nomeSupervisor: "Leandro Silva",
-      regiao: "Centro-Oeste",
-      statusPedido: "Ativo",
-    },
-  ]);
-
-  const handleVoltar = () => navigate("/menu");
+  const { postos, excluirPosto } = useContext(PostosContext);
 
   return (
     <div className="lista-postos-container">
       <h1>Lista de Postos</h1>
 
-      <button className="voltar-btn" onClick={handleVoltar}>
-        Voltar para Menu
+      <button className="novo-btn" onClick={() => navigate("/cadastro-posto")}>
+        Novo Posto
       </button>
 
       <table className="postos-table">
@@ -75,7 +22,8 @@ export default function ListaPostos() {
             <th>Gerente</th>
             <th>Supervisor</th>
             <th>Região</th>
-            <th>Status do Pedido</th>
+            <th>Status</th>
+            <th>Ações</th>
           </tr>
         </thead>
         <tbody>
@@ -90,11 +38,17 @@ export default function ListaPostos() {
               <td>{posto.regiao}</td>
               <td>
                 <span
-                  className={`status-bola ${
-                    posto.statusPedido === "Ativo" ? "ativo" : "inativo"
-                  }`}
+                  className={`status-bola ${posto.statusPedido
+                    .toLowerCase()
+                    .replace(" ", "-")}`}
                 ></span>
                 {posto.statusPedido}
+              </td>
+              <td>
+                <button onClick={() => navigate(`/cadastro-posto/${posto.id}`)}>
+                  Editar
+                </button>
+                <button onClick={() => excluirPosto(posto.id)}>Excluir</button>
               </td>
             </tr>
           ))}

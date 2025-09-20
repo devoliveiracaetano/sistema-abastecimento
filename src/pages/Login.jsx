@@ -1,14 +1,15 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "./Login.css";
 import caminhao1 from "../assets/caminhao1.jpg";
+import "./Login.css";
 
 export default function Login() {
   const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
-    navigate("/menu");
+    // Redireciona para Dashboard após login
+    navigate("/dashboard");
   };
 
   return (

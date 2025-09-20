@@ -1,23 +1,39 @@
-// src/routes.jsx
+import React from "react";
+
+// Componentes
 import Login from "./components/Login";
-import MenuPrincipal from "./pages/MenuPrincipal";
+import Dashboard from "./pages/Dashboard";
+
+// Cargas
 import ListaDeCargas from "./pages/ListaDeCargas";
 import InformacoesCarga from "./pages/InformacoesCarga";
+
+// Caminhões
 import CadastroCaminhoes from "./pages/CadastroCaminhoes";
 import ListaCaminhoes from "./pages/ListaCaminhoes";
 import ManutencaoCaminhoes from "./pages/ManutencaoCaminhoes";
+
+// Manutenções
 import ListaManutencoes from "./pages/ListaManutencoes";
+
+// Postos
 import CadastroPosto from "./pages/CadastroPosto";
+import ListaPostos from "./pages/ListaPostos";
 
 export const rotas = [
+  // Login
   { path: "/", element: <Login />, name: "Login", menu: false },
+
+  // Dashboard Geral
   {
-    path: "/menu",
-    element: <MenuPrincipal />,
-    name: "Menu Principal",
+    path: "/dashboard",
+    element: <Dashboard />,
+    name: "Dashboard",
     menu: true,
     categoria: "Geral",
   },
+
+  // Cargas
   {
     path: "/lista-cargas",
     element: <ListaDeCargas />,
@@ -32,6 +48,8 @@ export const rotas = [
     menu: true,
     categoria: "Geral",
   },
+
+  // Caminhões
   {
     path: "/cadastro-caminhoes",
     element: <CadastroCaminhoes />,
@@ -53,6 +71,8 @@ export const rotas = [
     menu: true,
     categoria: "Caminhões",
   },
+
+  // Manutenções
   {
     path: "/lista-manutencoes",
     element: <ListaManutencoes />,
@@ -60,10 +80,19 @@ export const rotas = [
     menu: true,
     categoria: "Manutenções",
   },
+
+  // Postos
   {
     path: "/cadastro-posto",
     element: <CadastroPosto />,
     name: "Cadastro de Postos",
+    menu: true,
+    categoria: "Postos",
+  },
+  {
+    path: "/lista-postos",
+    element: <ListaPostos />,
+    name: "Lista de Postos",
     menu: true,
     categoria: "Postos",
   },

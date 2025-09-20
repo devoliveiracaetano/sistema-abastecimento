@@ -5,13 +5,14 @@ import { rotas } from "./routes.jsx";
 // Contextos
 import { CaminhoesProvider } from "./contexts/CaminhoesContext";
 import { ManutencoesProvider } from "./contexts/ManutencoesContext";
+import { PostosProvider } from "./contexts/PostosContext";
 
 // Componentes
 import Sidebar from "./components/Sidebar";
 
 function AppWrapper() {
   const location = useLocation();
-  const mostrarSidebar = location.pathname !== "/"; // Oculta sidebar na tela de login
+  const mostrarSidebar = location.pathname !== "/"; // oculta sidebar na tela de login
 
   return (
     <div style={{ display: "flex" }}>
@@ -32,9 +33,11 @@ export default function App() {
   return (
     <CaminhoesProvider>
       <ManutencoesProvider>
-        <BrowserRouter>
-          <AppWrapper />
-        </BrowserRouter>
+        <PostosProvider>
+          <BrowserRouter>
+            <AppWrapper />
+          </BrowserRouter>
+        </PostosProvider>
       </ManutencoesProvider>
     </CaminhoesProvider>
   );
