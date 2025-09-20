@@ -7,100 +7,105 @@ export default function CadastroCaminhoes() {
   const navigate = useNavigate();
   const { adicionarCaminhao } = useContext(CaminhoesContext);
 
-  const [nome, setNome] = useState("");
   const [placa, setPlaca] = useState("");
+  const [modelo, setModelo] = useState("");
+  const [ano, setAno] = useState("");
+  const [status, setStatus] = useState("Ativo");
+  const [vencimentoDoc, setVencimentoDoc] = useState("");
   const [compartimentos, setCompartimentos] = useState([
-    { id: 1, capacidade: "" },
+    { nome: "Compartimento 1", capacidade: 0 },
   ]);
-  const [salvo, setSalvo] = useState(false);
 
-  const handleCompartimentoChange = (id, value) => {
-    setCompartimentos(
-      compartimentos.map((c) => (c.id === id ? { ...c, capacidade: value } : c))
-    );
+  const capacidadeTotal = compartimentos.reduce(
+    (acc, c) => acc + Number(c.capacidade),
+    0
+  );
+
+  const handleSalvar = () => {
+    const novoCaminhao = {
+      placa,
+      modelo,
+      ano,
+      status,
+      vencimentoDoc,
+      capacidadeTotal,
+      compartimentos,
+    };
+    adicionarCaminhao(novoCaminhao);
+    navigate("/lista-caminhoes");
   };
 
   const adicionarCompartimento = () => {
-    const novoId = compartimentos.length + 1;
-    setCompartimentos([...compartimentos, { id: novoId, capacidade: "" }]);
-  };
-
-  const handleSalvar = () => {
-    if (!nome || !placa) {
-      alert("Preencha nome e placa do caminhão.");
-      return;
-    }
-
-    const novoCaminhao = {
-      id: Date.now(),
-      nome,
-      placa,
-      compartimentos,
-    };
-
-    adicionarCaminhao(novoCaminhao);
-    setSalvo(true);
-
-    setTimeout(() => {
-      setSalvo(false);
-      navigate("/menu");
-    }, 2000); // mensagem de 2 segundos
-  };
-
-  const handleVoltar = () => {
-    navigate("/menu");
+    setCompartimentos([
+      ...compartimentos,
+      { nome: `Compartimento ${compartimentos.length + 1}`, capacidade: 0 },
+    ]);
   };
 
   return (
     <div className="cadastro-caminhoes-container">
-      <h1>Cadastro de Caminhões</h1>
-
-      <div className="form-group">
-        <label>Nome do Caminhão</label>
-        <input
-          type="text"
-          value={nome}
-          onChange={(e) => setNome(e.target.value)}
-        />
-      </div>
+      <h1>Cadastro de Caminhão</h1>
 
       <div className="form-group">
         <label>Placa</label>
+        <input value={placa} onChange={(e) => setPlaca(e.target.value)} />
+      </div>
+
+      <div className="form-group">
+        <label>Modelo</label>
+        <input value={modelo} onChange={(e) => setModelo(e.target.value)} />
+      </div>
+
+      <div className="form-group">
+        <label>Ano</label>
+        <input value={ano} onChange={(e) => setAno(e.target.value)} />
+      </div>
+
+      <div className="form-group">
+        <label>Status de Manutenção</label>
+        <select value={status} onChange={(e) => setStatus(e.target.value)}>
+          <option value="Ativo">Ativo</option>
+          <option value="Em Manutenção">Em Manutenção</option>
+        </select>
+      </div>
+
+      <div className="form-group">
+        <label>Vencimento Documento</label>
         <input
-          type="text"
-          value={placa}
-          onChange={(e) => setPlaca(e.target.value)}
+          type="date"
+          value={vencimentoDoc}
+          onChange={(e) => setVencimentoDoc(e.target.value)}
         />
       </div>
 
-      <h2>Compartimentos</h2>
-      {compartimentos.map((c) => (
-        <div key={c.id} className="form-group">
-          <label>Compartimento {c.id} (litros)</label>
-          <input
-            type="number"
-            value={c.capacidade}
-            onChange={(e) => handleCompartimentoChange(c.id, e.target.value)}
-          />
-        </div>
-      ))}
-
-      <button className="add-comp-btn" onClick={adicionarCompartimento}>
-        Adicionar Compartimento
-      </button>
-
-      <div className="buttons">
-        <button className="salvar-btn" onClick={handleSalvar}>
-          Salvar
-        </button>
-        <button className="voltar-btn" onClick={handleVoltar}>
-          Voltar
+      <div className="form-group">
+        <label>Compartimentos</label>
+        {compartimentos.map((c, i) => (
+          <div key={i}>
+            <span>{c.nome}</span>
+            <input
+              type="number"
+              value={c.capacidade}
+              onChange={(e) => {
+                const novos = [...compartimentos];
+                novos[i].capacidade = e.target.value;
+                setCompartimentos(novos);
+              }}
+            />
+          </div>
+        ))}
+        <button onClick={adicionarCompartimento}>
+          Adicionar Compartimento
         </button>
       </div>
 
-      {salvo && (
-        <div className="mensagem-sucesso">Caminhão salvo com sucesso!</div>
-      )}
+      <div className="form-group">
+        <label>Capacidade Total</label>
+        <input value={capacidadeTotal} readOnly />
+      </div>
+
+      <button onClick={handleSalvar}>Salvar</button>
+      <button onClick={() => navigate("/menu")}>Voltar para Menu</button>
     </div>
   );
 }

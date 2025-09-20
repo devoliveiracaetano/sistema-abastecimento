@@ -1,78 +1,130 @@
-.cadastro-caminhoes-container {
-  padding: 20px;
-  max-width: 500px;
-  margin: auto;
-  font-family: Arial, sans-serif;
-}
+import React, { useState, useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { CaminhoesContext } from "../contexts/CaminhoesContext";
+import "./CadastroCaminhoes.css";
 
-h1 {
-  text-align: center;
-  margin-bottom: 20px;
-}
+export default function CadastroCaminhoes() {
+  const navigate = useNavigate();
+  const { adicionarCaminhao } = useContext(CaminhoesContext);
 
-.form-group {
-  margin-bottom: 15px;
-  display: flex;
-  flex-direction: column;
-}
+  const [placa, setPlaca] = useState("");
+  const [modelo, setModelo] = useState("");
+  const [ano, setAno] = useState("");
+  const [foto, setFoto] = useState(null);
+  const [compartimentos, setCompartimentos] = useState([
+    { nome: "Compartimento 1", capacidade: "" },
+  ]);
+  const [status, setStatus] = useState("Ativo");
+  const [capacidadeTotal, setCapacidadeTotal] = useState(0);
+  const [vencimentoDoc, setVencimentoDoc] = useState("");
 
-label {
-  font-weight: bold;
-  margin-bottom: 5px;
-}
+  // Calcula a soma total das capacidades sempre que compartimentos mudam
+  useEffect(() => {
+    const total = compartimentos.reduce((acc, c) => {
+      const valor = parseFloat(c.capacidade) || 0;
+      return acc + valor;
+    }, 0);
+    setCapacidadeTotal(total);
+  }, [compartimentos]);
 
-input {
-  padding: 8px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-}
+  const handleFotoChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      setFoto(URL.createObjectURL(e.target.files[0]));
+    }
+  };
 
-.foto-preview {
-  margin-top: 10px;
-  max-width: 100%;
-  max-height: 200px;
-  border-radius: 6px;
-}
+  const handleAdicionarCompartimento = () => {
+    const novoIndex = compartimentos.length + 1;
+    setCompartimentos([...compartimentos, { nome: `Compartimento ${novoIndex}`, capacidade: "" }]);
+  };
 
-.buttons {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-}
+  const handleCompartimentoChange = (index, valor) => {
+    const novos = [...compartimentos];
+    novos[index].capacidade = valor;
+    setCompartimentos(novos);
+  };
 
-.salvar-btn {
-  background-color: #28a745;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: bold;
-}
+  const handleSalvar = () => {
+    const novoCaminhao = {
+      placa,
+      modelo,
+      ano,
+      foto,
+      compartimentos: compartimentos.map((c) => ({
+        nome: c.nome,
+        capacidade: c.capacidade + " litros",
+      })),
+      capacidadeTotal: capacidadeTotal + " litros",
+      status,
+      vencimentoDoc,
+    };
+    adicionarCaminhao(novoCaminhao);
+    navigate("/lista-caminhoes");
+  };
 
-.salvar-btn:hover {
-  background-color: #218838;
-}
+  return (
+    <div className="cadastro-caminhoes-container">
+      <h1>Cadastro de Caminhões</h1>
 
-.voltar-btn {
-  background-color: #6c757d;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: bold;
-}
+      <div className="form-group">
+        <label>Placa</label>
+        <input type="text" value={placa} onChange={(e) => setPlaca(e.target.value)} />
+      </div>
 
-.voltar-btn:hover {
-  background-color: #5a6268;
-}
+      <div className="form-group">
+        <label>Modelo</label>
+        <input type="text" value={modelo} onChange={(e) => setModelo(e.target.value)} />
+      </div>
 
-.mensagem-sucesso {
-  margin-top: 15px;
-  color: white;
-  background-color: #28a745;
-  padding: 10px;
-  border-radius: 6px;
-  text-align: center;
+      <div className="form-group">
+        <label>Ano</label>
+        <input type="number" value={ano} onChange={(e) => setAno(e.target.value)} />
+      </div>
+
+      <div className="form-group">
+        <label>Status de Manutenção</label>
+        <select value={status} onChange={(e) => setStatus(e.target.value)}>
+          <option value="Ativo">Ativo</option>
+          <option value="Em Manutenção">Em Manutenção</option>
+        </select>
+      </div>
+
+      <div className="form-group">
+        <label>Vencimento da Documentação</label>
+        <input type="date" value={vencimentoDoc} onChange={(e) => setVencimentoDoc(e.target.value)} />
+      </div>
+
+      <div className="form-group">
+        <label>Foto</label>
+        <input type="file" accept="image/*" onChange={handleFotoChange} />
+        {foto && <img src={foto} alt="Caminhão" className="foto-caminhao" />}
+      </div>
+
+      <h2>Compartimentos</h2>
+      {compartimentos.map((c, i) => (
+        <div className="form-group" key={i}>
+          <label>{c.nome}</label>
+          <input
+            type="number"
+            placeholder="Capacidade em litros"
+            value={c.capacidade}
+            onChange={(e) => handleCompartimentoChange(i, e.target.value)}
+          />
+        </div>
+      ))}
+      <button className="add-comp-btn" onClick={handleAdicionarCompartimento}>
+        Adicionar Compartimento
+      </button>
+
+      <div className="form-group">
+        <label>Capacidade Total</label>
+        <input type="text" value={`${capacidadeTotal} litros`} readOnly />
+      </div>
+
+      <div className="bottom-buttons">
+        <button className="salvar-btn" onClick={handleSalvar}>Salvar</button>
+        <button className="voltar-btn" onClick={() => navigate("/lista-caminhoes")}>Voltar</button>
+      </div>
+    </div>
+  );
 }
