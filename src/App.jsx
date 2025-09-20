@@ -1,39 +1,43 @@
+// src/App.jsx
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LayoutDrawer from "./layouts/LayoutDrawer";
 import { rotas } from "./routes";
 import Login from "./components/Login";
 
-// Contexts
-import { CaminhoesProvider } from "./contexts/CaminhoesContext";
-import { ManutencoesProvider } from "./contexts/ManutencoesContext";
+// Importando todos os providers
 import { PostosProvider } from "./contexts/PostosContext";
+import { CaminhoesProvider } from "./contexts/CaminhoesContext";
+import { MotoristasProvider } from "./contexts/MotoristasContext";
 import { PedidosProvider } from "./contexts/PedidosContext";
+import { ManutencoesProvider } from "./contexts/ManutencoesContext";
 
 export default function App() {
   return (
-    <CaminhoesProvider>
-      <ManutencoesProvider>
-        <PostosProvider>
+    <PostosProvider>
+      <CaminhoesProvider>
+        <MotoristasProvider>
           <PedidosProvider>
-            <BrowserRouter>
-              <Routes>
-                {/* Login não usa layout */}
-                <Route path="/" element={<Login />} />
+            <ManutencoesProvider>
+              <BrowserRouter>
+                <Routes>
+                  {/* Login não usa layout */}
+                  <Route path="/login" element={<Login />} />
 
-                {/* Todas as outras rotas usam o LayoutDrawer */}
-                <Route element={<LayoutDrawer />}>
-                  {rotas
-                    .filter((r) => r.path !== "/") // exceto login
-                    .map((r) => (
-                      <Route key={r.path} path={r.path} element={r.element} />
-                    ))}
-                </Route>
-              </Routes>
-            </BrowserRouter>
+                  {/* Todas as outras rotas usam LayoutDrawer */}
+                  <Route element={<LayoutDrawer />}>
+                    {rotas
+                      .filter((r) => r.path !== "/login")
+                      .map((r) => (
+                        <Route key={r.path} path={r.path} element={r.element} />
+                      ))}
+                  </Route>
+                </Routes>
+              </BrowserRouter>
+            </ManutencoesProvider>
           </PedidosProvider>
-        </PostosProvider>
-      </ManutencoesProvider>
-    </CaminhoesProvider>
+        </MotoristasProvider>
+      </CaminhoesProvider>
+    </PostosProvider>
   );
 }
