@@ -9,6 +9,8 @@ export default function CadastroCaminhoes() {
 
   const [placa, setPlaca] = useState("");
   const [modelo, setModelo] = useState("");
+  const [tipo, setTipo] = useState(""); // Novo campo
+  const [marca, setMarca] = useState(""); // Novo campo
   const [ano, setAno] = useState("");
   const [status, setStatus] = useState("Ativo");
   const [vencimentoDoc, setVencimentoDoc] = useState("");
@@ -25,6 +27,8 @@ export default function CadastroCaminhoes() {
     const novoCaminhao = {
       placa,
       modelo,
+      tipo,
+      marca,
       ano,
       status,
       vencimentoDoc,
@@ -54,6 +58,16 @@ export default function CadastroCaminhoes() {
       <div className="form-group">
         <label>Modelo</label>
         <input value={modelo} onChange={(e) => setModelo(e.target.value)} />
+      </div>
+
+      <div className="form-group">
+        <label>Tipo</label>
+        <input value={tipo} onChange={(e) => setTipo(e.target.value)} />
+      </div>
+
+      <div className="form-group">
+        <label>Marca</label>
+        <input value={marca} onChange={(e) => setMarca(e.target.value)} />
       </div>
 
       <div className="form-group">

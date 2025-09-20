@@ -1,30 +1,18 @@
-import React from "react";
-
-// Componentes
 import Login from "./components/Login";
 import Dashboard from "./pages/Dashboard";
-
-// Cargas
 import ListaDeCargas from "./pages/ListaDeCargas";
 import InformacoesCarga from "./pages/InformacoesCarga";
-
-// Caminhões
 import CadastroCaminhoes from "./pages/CadastroCaminhoes";
 import ListaCaminhoes from "./pages/ListaCaminhoes";
 import ManutencaoCaminhoes from "./pages/ManutencaoCaminhoes";
-
-// Manutenções
 import ListaManutencoes from "./pages/ListaManutencoes";
-
-// Postos
 import CadastroPosto from "./pages/CadastroPosto";
 import ListaPostos from "./pages/ListaPostos";
+import CadastroPedidos from "./pages/CadastroPedidos";
+import ListaPedidos from "./pages/ListaPedidos";
 
 export const rotas = [
-  // Login
   { path: "/", element: <Login />, name: "Login", menu: false },
-
-  // Dashboard Geral
   {
     path: "/dashboard",
     element: <Dashboard />,
@@ -32,8 +20,6 @@ export const rotas = [
     menu: true,
     categoria: "Geral",
   },
-
-  // Cargas
   {
     path: "/lista-cargas",
     element: <ListaDeCargas />,
@@ -48,8 +34,6 @@ export const rotas = [
     menu: true,
     categoria: "Geral",
   },
-
-  // Caminhões
   {
     path: "/cadastro-caminhoes",
     element: <CadastroCaminhoes />,
@@ -71,8 +55,6 @@ export const rotas = [
     menu: true,
     categoria: "Caminhões",
   },
-
-  // Manutenções
   {
     path: "/lista-manutencoes",
     element: <ListaManutencoes />,
@@ -80,8 +62,6 @@ export const rotas = [
     menu: true,
     categoria: "Manutenções",
   },
-
-  // Postos
   {
     path: "/cadastro-posto",
     element: <CadastroPosto />,
@@ -95,5 +75,19 @@ export const rotas = [
     name: "Lista de Postos",
     menu: true,
     categoria: "Postos",
+  },
+  {
+    path: "/cadastro-pedidos",
+    element: <CadastroPedidos />,
+    name: "Cadastro de Pedidos",
+    menu: true,
+    categoria: "Pedidos",
+  },
+  {
+    path: "/lista-pedidos",
+    element: <ListaPedidos />,
+    name: "Lista de Pedidos",
+    menu: true,
+    categoria: "Pedidos",
   },
 ];

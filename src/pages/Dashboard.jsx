@@ -1,100 +1,99 @@
 import React, { useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { FaTruck, FaBuilding, FaRoad, FaCheckCircle } from "react-icons/fa";
 import { CaminhoesContext } from "../contexts/CaminhoesContext";
 import { ManutencoesContext } from "../contexts/ManutencoesContext";
 import { PostosContext } from "../contexts/PostosContext";
-
+import { PedidosContext } from "../contexts/PedidosContext";
 import {
   BarChart,
   Bar,
   XAxis,
   YAxis,
-  CartesianGrid,
   Tooltip,
-  PieChart,
-  Pie,
-  Cell,
-  Legend,
+  ResponsiveContainer,
 } from "recharts";
-
 import "./Dashboard.css";
 
 export default function Dashboard() {
-  const navigate = useNavigate();
+  const { manutencoes } = useContext(ManutencoesContext);
+  const { postos } = useContext(PostosContext);
+  const { pedidos } = useContext(PedidosContext);
 
-  // Garantindo valores default caso contextos ainda não tenham dados
-  const { caminhões = [] } = useContext(CaminhoesContext) || {};
-  const { manutencoes = [] } = useContext(ManutencoesContext) || {};
-  const { postos = [] } = useContext(PostosContext) || {};
-
-  // Caminhões em manutenção
-  const manutencaoAtiva = manutencoes.filter((m) => !m.dataSaida).length;
-
-  // Dados para gráfico de barras
-  const dadosCaminhoes = [
-    { name: "Em manutenção", qtd: manutencaoAtiva },
-    { name: "Disponíveis", qtd: caminhões.length - manutencaoAtiva },
-  ];
-
-  // Contando postos por status
-  const postosAtivos = postos.filter((p) => p.statusPedido === "Ativo").length;
-  const postosPendentes = postos.filter(
-    (p) => p.statusPedido === "Pendente"
-  ).length;
-  const postosAnalise = postos.filter(
-    (p) => p.statusPedido === "Em Análise"
+  const caminhõesEmManutencao = manutencoes.filter((m) => !m.dataSaida).length;
+  const totalPostos = postos.length;
+  const pedidosEmRota = pedidos.filter((p) => p.status === "Em rota").length;
+  const pedidosFinalizados = pedidos.filter(
+    (p) => p.status === "Finalizado"
   ).length;
 
-  const dadosPostos = [
-    { name: "Ativos", value: postosAtivos },
-    { name: "Pendentes", value: postosPendentes },
-    { name: "Em Análise", value: postosAnalise },
-  ];
+  const statusCounts = pedidos.reduce((acc, p) => {
+    acc[p.status] = (acc[p.status] || 0) + 1;
+    return acc;
+  }, {});
 
-  const coresPostos = ["#2ecc71", "#f1c40f", "#e74c3c"];
+  const chartData = Object.entries(statusCounts).map(([status, count]) => ({
+    status,
+    count,
+  }));
+
+  const cards = [
+    {
+      title: "Caminhões em Manutenção",
+      value: caminhõesEmManutencao,
+      color: "#e74c3c",
+      icon: <FaTruck size={40} />,
+    },
+    {
+      title: "Total de Postos",
+      value: totalPostos,
+      color: "#3498db",
+      icon: <FaBuilding size={40} />,
+    },
+    {
+      title: "Pedidos em Rota",
+      value: pedidosEmRota,
+      color: "#f39c12",
+      icon: <FaRoad size={40} />,
+    },
+    {
+      title: "Pedidos Finalizados",
+      value: pedidosFinalizados,
+      color: "#2ecc71",
+      icon: <FaCheckCircle size={40} />,
+    },
+  ];
 
   return (
     <div className="dashboard-container">
       <h1>Dashboard</h1>
-      <p>Resumo visual do sistema:</p>
 
-      <div className="dashboard-cards">
-        {/* Caminhões */}
-        <div className="dashboard-card">
-          <h3>Caminhões</h3>
-          <BarChart width={200} height={150} data={dadosCaminhoes}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
+      <div className="cards-container">
+        {cards.map((card) => (
+          <div
+            key={card.title}
+            className="dashboard-card"
+            style={{ backgroundColor: card.color }}
+          >
+            <div className="card-icon">{card.icon}</div>
+            <h3>{card.title}</h3>
+            <p>{card.value}</p>
+          </div>
+        ))}
+      </div>
+
+      <h2>Status dos Pedidos</h2>
+      <div className="chart-container">
+        <ResponsiveContainer width="100%" height={300}>
+          <BarChart
+            data={chartData}
+            margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+          >
+            <XAxis dataKey="status" />
+            <YAxis allowDecimals={false} />
             <Tooltip />
-            <Bar dataKey="qtd" fill="#3498db" />
+            <Bar dataKey="count" fill="#3498db" />
           </BarChart>
-          <button onClick={() => navigate("/lista-manutencoes")}>
-            Ver detalhes
-          </button>
-        </div>
-
-        {/* Postos */}
-        <div className="dashboard-card">
-          <h3>Postos</h3>
-          <PieChart width={200} height={150}>
-            <Pie
-              data={dadosPostos}
-              dataKey="value"
-              nameKey="name"
-              cx="50%"
-              cy="50%"
-              outerRadius={50}
-              label
-            >
-              {dadosPostos.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={coresPostos[index]} />
-              ))}
-            </Pie>
-            <Tooltip />
-            <Legend />
-          </PieChart>
-        </div>
+        </ResponsiveContainer>
       </div>
     </div>
   );

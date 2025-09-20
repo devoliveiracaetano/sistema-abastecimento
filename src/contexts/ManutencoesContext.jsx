@@ -10,26 +10,31 @@ export function ManutencoesProvider({ children }) {
       dataEnvio: "2025-09-10",
       oficina: "Oficina Central",
       gastos: 1500,
-      dataSaida: null, // ainda em manutenção
-      fotoRecibo: null,
+      dataSaida: null,
     },
     {
       id: 2,
-      caminhaoId: 2,
+      caminhaoId: 4,
       dataEnvio: "2025-08-25",
       oficina: "Oficina Sul",
       gastos: 2300,
-      dataSaida: "2025-09-05", // manutenção concluída
-      fotoRecibo: null,
+      dataSaida: "2025-09-05",
     },
     {
       id: 3,
-      caminhaoId: 3,
+      caminhaoId: 5,
       dataEnvio: "2025-09-15",
       oficina: "Oficina Norte",
       gastos: 1800,
-      dataSaida: null, // ainda em manutenção
-      fotoRecibo: null,
+      dataSaida: null,
+    },
+    {
+      id: 4,
+      caminhaoId: 9,
+      dataEnvio: "2025-09-17",
+      oficina: "Oficina Leste",
+      gastos: 2000,
+      dataSaida: null,
     },
   ]);
 
