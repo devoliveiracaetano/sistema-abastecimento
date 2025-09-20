@@ -1,38 +1,39 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-
-// Páginas
-import Login from "./components/Login";
-import MenuPrincipal from "./pages/MenuPrincipal";
-import ListaDeCargas from "./pages/ListaDeCargas";
-import InformacoesCarga from "./pages/InformacoesCarga";
-import CadastroCaminhoes from "./pages/CadastroCaminhoes";
-import ListaCaminhoes from "./pages/ListaCaminhoes";
-import ManutencaoCaminhoes from "./pages/ManutencaoCaminhoes";
-import ListaManutencoes from "./pages/ListaManutencoes";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { rotas } from "./routes.jsx";
 
 // Contextos
 import { CaminhoesProvider } from "./contexts/CaminhoesContext";
 import { ManutencoesProvider } from "./contexts/ManutencoesContext";
+
+// Componentes
+import Sidebar from "./components/Sidebar";
+
+function AppWrapper() {
+  const location = useLocation();
+  const mostrarSidebar = location.pathname !== "/"; // Oculta sidebar na tela de login
+
+  return (
+    <div style={{ display: "flex" }}>
+      {mostrarSidebar && <Sidebar rotas={rotas} />}
+
+      <div style={{ flex: 1, padding: "20px" }}>
+        <Routes>
+          {rotas.map((r) => (
+            <Route key={r.path} path={r.path} element={r.element} />
+          ))}
+        </Routes>
+      </div>
+    </div>
+  );
+}
 
 export default function App() {
   return (
     <CaminhoesProvider>
       <ManutencoesProvider>
         <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Login />} />
-            <Route path="/menu" element={<MenuPrincipal />} />
-            <Route path="/lista-cargas" element={<ListaDeCargas />} />
-            <Route path="/informacoes-carga" element={<InformacoesCarga />} />
-            <Route path="/cadastro-caminhoes" element={<CadastroCaminhoes />} />
-            <Route path="/lista-caminhoes" element={<ListaCaminhoes />} />
-            <Route
-              path="/manutencao-caminhoes"
-              element={<ManutencaoCaminhoes />}
-            />
-            <Route path="/lista-manutencoes" element={<ListaManutencoes />} />
-          </Routes>
+          <AppWrapper />
         </BrowserRouter>
       </ManutencoesProvider>
     </CaminhoesProvider>

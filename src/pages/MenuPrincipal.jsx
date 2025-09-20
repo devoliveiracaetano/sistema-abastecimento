@@ -24,6 +24,9 @@ export default function MenuPrincipal() {
         <button onClick={() => navigate("/lista-manutencoes")}>
           Lista de Manutenções
         </button>
+        <button onClick={() => navigate("/cadastro-posto")}>
+          Cadastro de Posto
+        </button>
         <button onClick={() => navigate("/")}>Voltar para Login</button>
       </div>
     </div>

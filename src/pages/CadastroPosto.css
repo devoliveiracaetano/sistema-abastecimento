@@ -1,0 +1,81 @@
+/* src/pages/CadastroPosto.css */
+
+.cadastro-posto-container {
+  max-width: 900px;
+  margin: 40px auto;
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+
+h1,
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form-cadastro {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.form-cadastro input,
+.form-cadastro select {
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 200px;
+}
+
+.form-cadastro .botoes {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.form-cadastro button {
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.form-cadastro button:hover {
+  background-color: #0056b3;
+}
+
+.postos-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.postos-table th,
+.postos-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+  font-size: 14px;
+}
+
+.postos-table th {
+  background-color: #007bff;
+  color: white;
+}
+
+.postos-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.postos-table tr:hover {
+  background-color: #e0e0e0;
+  cursor: pointer;
+}
